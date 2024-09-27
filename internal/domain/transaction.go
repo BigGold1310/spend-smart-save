@@ -1,0 +1,11 @@
+package domain
+
+import "time"
+
+type Transaction struct {
+	ID            int64     `db:"id" json:"id"`
+	FromAccountID int64     `db:"from_account_id" json:"from_account_id"`
+	ToAccountID   int64     `db:"to_account_id" json:"to_account_id"`
+	Amount        float64   `db:"amount" json:"amount"`
+	CreatedAt     time.Time `db:"created_at" json:"created_at"`
+}
