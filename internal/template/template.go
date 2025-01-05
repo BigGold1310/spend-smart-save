@@ -2,34 +2,54 @@ package template
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
+	"net/http"
+	"path/filepath"
 	"sync"
 )
 
 var (
-	//go:embed "templates/*"
-	templs   embed.FS
-	renderer *Renderer
-	onceDo   sync.Once
+	//go:embed user/* layout/*
+	templates      embed.FS
+	layoutTemplate *template.Template
+	once           sync.Once
 )
 
-type Renderer struct {
-	templ *template.Template
-}
+func Render(w http.ResponseWriter, name string, data interface{}) error {
+	once.Do(func() {
+		// Parse only the layout user once
+		layoutPath := filepath.ToSlash("layout/base.gohtml")
+		content, err := templates.ReadFile(layoutPath)
+		if err != nil {
+			panic(fmt.Sprintf("failed to read layout user: %v", err))
+		}
 
+		tmpl, err := template.New(layoutPath).Parse(string(content))
+		if err != nil {
+			panic(fmt.Sprintf("failed to parse layout user: %v", err))
+		}
 
+		layoutTemplate = tmpl
+	})
 
-
-func NewRenderer() (*Renderer, error) {
-	templ, err := template.ParseFS(templs, "templates/*.gohtml")
+	tmpl, err := layoutTemplate.Clone()
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("failed to clone user: %w", err)
 	}
 
-	templ.
+	layoutPath := filepath.ToSlash(name)
+	content, err := templates.ReadFile(layoutPath)
+	if err != nil {
+		return fmt.Errorf("failed to read layout user: %v", err)
+	}
 
-	extensions := parser.CommonExtensions | parser.AutoHeadingIDs
-	parser := parser.NewWithExtensions(extensions)
+	tmpl, err = tmpl.New(layoutPath).Parse(string(content))
+	if err != nil {
+		return fmt.Errorf("failed to parse layout user: %v", err)
+	}
 
-	return &PostRenderer{templ: templ, mdParser: parser}, nil
+	// Set content type and write response
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	return tmpl.ExecuteTemplate(w, name, data)
 }

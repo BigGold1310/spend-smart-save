@@ -1,0 +1,21 @@
+{{template "layout/base.gohtml" .}}
+{{define "content"}}
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+        <div class="px-6 py-4">
+            <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Username</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{.User.Username}}</dd>
+                </div>
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Email</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{.User.Email}}</dd>
+                </div>
+                <div>
+                    <dt class="text-sm font-medium text-gray-500">Created At</dt>
+                    <dd class="mt-1 text-sm text-gray-900">{{.User.CreatedAt.Format "2006-01-02 15:04:05"}}</dd>
+                </div>
+            </dl>
+        </div>
+    </div>
+{{end}}

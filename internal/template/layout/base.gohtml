@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Title }} - SSAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
+</head>
+<body class="h-full bg-white dark:bg-gray-900">
+<div x-data="{ sidebarOpen: false, darkMode: false }" class="h-full">
+    <!-- Mobile Navigation Toggle -->
+    <div class="fixed inset-0 flex z-40 lg:hidden" x-show="sidebarOpen" x-cloak>
+        <div class="fixed inset-0 bg-gray-600 bg-opacity-75" x-show="sidebarOpen"
+             @click="sidebarOpen = false"></div>
+
+        <div class="relative flex-1 flex flex-col max-w-xs w-full bg-white dark:bg-gray-800 transition-transform duration-300"
+             x-show="sidebarOpen">
+            <div class="absolute top-0 right-0 -mr-12 pt-2">
+                <button @click="sidebarOpen = false" class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                    <span class="sr-only">Close sidebar</span>
+                    <svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Mobile Nav Content -->
+            <nav class="flex-1 px-4 py-4">
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Home</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">About</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Services</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Desktop Sidebar -->
+    <div class="hidden lg:flex lg:flex-col lg:w-64 lg:fixed lg:inset-y-0">
+        <div class="flex-1 flex flex-col min-h-0 bg-white dark:bg-gray-800">
+            <nav class="flex-1 px-4 py-4">
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Home</a>
+                <a href="/users" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Users</a>
+                <a href="/users/create" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Create User</a>
+                <a href="#" class="block px-4 py-2 text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 rounded">Contact</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="lg:pl-64 flex flex-col flex-1">
+        <!-- Top Navigation -->
+        <div class="lg:hidden sticky top-0 z-10 flex-shrink-0 flex h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+            <button @click="sidebarOpen = true" class="lg:hidden px-4 text-gray-500 dark:text-gray-400">
+                <span class="sr-only">Open sidebar</span>
+                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1">
+            <div class="py-6 px-4 sm:px-6 lg:px-8">
+                <h1 class="text-2xl font-semibold text-gray-900 dark:text-white">{{ .Title }}</h1>
+                {{ block "content" . }}{{end}}
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/2.8.2/alpine.js"></script>
+</body>
+</html>

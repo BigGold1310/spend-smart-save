@@ -14,8 +14,9 @@ type Transaction interface {
 	Create(ctx context.Context, transaction *domain.Transaction) error
 }
 
-type User interface {
-	GetByID(id int) (*domain.User, error)
-	GetAll() ([]domain.User, error)
-	Create(ctx context.Context, transaction *domain.User) error
+type UserRepository interface {
+	GetUsers() ([]domain.User, error)
+	GetUserByID(id int) (*domain.User, error)
+	CreateUser(user *domain.UserCreate) (*domain.User, error)
+	UpdateUser(id int, update *domain.UserUpdate) (*domain.User, error)
 }

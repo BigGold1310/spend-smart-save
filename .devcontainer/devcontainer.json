@@ -7,12 +7,31 @@
 	// Use "image": "mcr.microsoft.com/vscode/devcontainers/base:ubuntu",
 	// instead of the build to use a pre-built image.
 	"build": {
-        "context": ".",
-        "dockerfile": "Dockerfile"
+      "context": ".",
+      "dockerfile": "Dockerfile"
     },
 	// Features add additional features to your environment. See https://containers.dev/features
 	// Beware: features are not supported on all platforms and may have unintended side-effects.
 	"features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+      "ghcr.io/devcontainers/features/common-utils:2": {
+        "installZsh": "true",
+        "installOhMyZsh": "false",
+        "installOhMyZshConfig": "false",
+        "username": "vscode",
+        "userUid": "1000",
+        "userGid": "1000",
+        "upgradePackages": "true"
+      },
+      "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+      "ghcr.io/devcontainers/features/go:1": {
+        "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/node:1": {
+        "version": "latest"
+      },
+      "ghcr.io/devcontainers/features/git:1": {
+        "version": "latest",
+        "ppa": "false"
+      }
     }
 }
